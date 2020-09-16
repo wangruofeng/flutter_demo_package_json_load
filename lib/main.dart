@@ -37,8 +37,9 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
   void _incrementCounter() {
-    testLoadJsonFile();
-    // testLoadJsonFileByDefaultAssetBundle(context);
+    // testLoadJsonFile();
+    testLoadJsonFileByDefaultAssetBundle(context)
+        .then((value) => debugPrint("value:$value"));
     setState(() {
       _counter++;
     });
@@ -79,16 +80,19 @@ void testLoadJsonFile() {
   debugPrint("end load");
 }
 
-void testLoadJsonFileByDefaultAssetBundle(BuildContext context) {
-  // This is not work too.
-  DefaultAssetBundle.of(context)
-      .loadString('json_test_package/assets/test2.jso');
+// This is work too.
+Future<String> testLoadJsonFileByDefaultAssetBundle(BuildContext context) {
+  // 【importance】 packag json file need use this formate:
+  // `packages/$package/$assetName`
+  return DefaultAssetBundle.of(context)
+      .loadString('packages/json_test_package/assets/test2.json');
 }
 
-// ignore: unused_element
+// json file in package,this is work
 Future<String> _loadFromPackageAsset() async {
-  // json file in package,is not work
-  return rootBundle.loadString("json_test_package/assets/test2.json");
+  // 【importance】 packag json file need use this formate:
+  // `packages/$package/$assetName`
+  return rootBundle.loadString("packages/json_test_package/assets/test2.json");
 }
 
 // ignore: unused_element
